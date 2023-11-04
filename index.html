@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="banner">
+        <img id="image" src="images/img1.jpg">
+
+        <span class="arrow pre">&lt;</span>
+        <span class="arrow next">&gt;</span>
+        
+        <ul class="points">
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    
+    <script>
+        var index=0;
+        var points=document.querySelectorAll('.points>li');
+        var img=document.getElementById('image');
+        var banner=document.querySelector('.banner');
+        var pre=document.querySelector('.pre');
+        var next=document.querySelector('.next');
+        var paths=["images/img1.jpg","images/img2.jpg","images/img3.jpg","images/img4.jpg"]
+
+        function showImage(n){
+            image.src=paths[n];
+            for(var x of points){
+                x.className='';
+            }
+            points[n].className='current';
+            
+        }
+        function showNextImage(){
+            if(index==paths.length-1){
+                index=0;
+            }else{
+                index++;
+            }
+            showImage(index);
+        }
+        function showPrevImage(){
+            if(index==0){
+                index=paths.length-1;
+            }else{
+                index--;
+            }
+            showImage(index);
+        }
+        var timer=setInterval(showNextImage,1000)
+        banner.onmouseover=function(){
+            clearInterval(timer)
+            pre.style.display='block';
+            next.style.display='block';
+        }
+        banner.onmouseout=function(){
+            timer = setInterval(showNextImage,1000) 
+            pre.style.display='none';
+            next.style.display='none';
+        }
+        next.onclick=showNextImage;
+        pre.onclick=showPrevImage;
+        for(var i=0;i<points.length;i++){
+            points[i].setAttribute('data',i);
+            points[i].onclick=function(){
+                index=this.getAttribute('data',i);
+                for(var x of points){
+                    x.className='';
+                }   
+                this.className='current';
+                showImage(index);
+            }   
+            
+        }
+    </script>
+</body>
+</html>
